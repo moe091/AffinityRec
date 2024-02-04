@@ -1,0 +1,3 @@
+TrIgeR_256||8
+Mark_GAES||10
+adotplot||1

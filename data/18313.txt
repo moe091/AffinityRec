@@ -1,0 +1,2 @@
+Pyro||1
+zombie_pegasus||1

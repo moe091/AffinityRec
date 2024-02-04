@@ -1,0 +1,5 @@
+Klamos||6
+actual_human||2
+SevenThirtySeven||8
+Puotek||5
+Sarinya||7

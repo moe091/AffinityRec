@@ -1,0 +1,4 @@
+Serafos||3
+myuniquename||6
+CoolSoda||5
+Empoleon1999||6

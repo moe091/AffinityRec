@@ -1,0 +1,4 @@
+djofw||5
+cozmiz||6
+Asaj||7
+MyS7||10

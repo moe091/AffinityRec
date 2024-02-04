@@ -1,0 +1,4 @@
+VI1||10
+Oomyung||7
+BatataZero||7
+end_world||9

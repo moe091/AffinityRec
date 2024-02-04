@@ -1,0 +1,4 @@
+Serafos||3
+Prince-of-Beasts||6
+BlastMonkey||8
+Monofly||8

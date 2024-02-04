@@ -1,0 +1,5 @@
+galimx||5
+Pyro||3
+KumoAC||3
+xLunaDragon||5
+Papa_Dragon||4

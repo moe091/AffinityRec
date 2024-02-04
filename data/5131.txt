@@ -1,0 +1,5 @@
+anacmz||7
+rnst_telepata||6
+LittleOwlbear||6
+Archrust||8
+CorvaX||4

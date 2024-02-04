@@ -1,0 +1,5 @@
+silmapiilo_wool||8
+Mecanno-man||1
+Fukitsu||6
+Amiyanwag||2
+not_koi||1

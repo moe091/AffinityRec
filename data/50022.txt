@@ -1,0 +1,4 @@
+ForbiddenShadows||10
+ShadowBMX||7
+LittleBeanG||5
+WhatsCPS||7

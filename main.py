@@ -71,16 +71,20 @@ def writeUsersData(users, token):
             outfile.write("\n")
 
 
-
-token = readToken()
-print("GOT TOKEN ")
-
-l = getUsersList()
-
-
-#grab user data and write after every 10 so I don't lose everything if something goes wrong before completion
-for i in range(0, int(len(l) / 10)):
-    print("Getting Users Data for users " + str(i*10) + " through " + str(i*10+9))
-    writeUsersData(l[i*10:i*10+9], token)
-
-print(len(l))
+if __name__ == "__main__":
+    token = readToken()
+    d = requestUserData("freere", token)['data']
+    for l in d:
+        print("\n")
+        print(l)
+    # print("GOT TOKEN ")
+    #
+    # l = getUsersList()
+    #
+    #
+    # #grab user data and write after every 10 so I don't lose everything if something goes wrong before completion
+    # for i in range(0, int(len(l) / 10)):
+    #     print("Getting Users Data for users " + str(i*10) + " through " + str(i*10+9))
+    #     writeUsersData(l[i*10:i*10+9], token)
+    #
+    # print(len(l))

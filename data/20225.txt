@@ -1,0 +1,3 @@
+supersmooth||1
+Orochiro||5
+Sumakku||5

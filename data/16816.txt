@@ -1,0 +1,3 @@
+Kraanerg||3
+Pyro||1
+zombie_pegasus||3
