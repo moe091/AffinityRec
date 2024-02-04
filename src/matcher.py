@@ -1,14 +1,13 @@
-import main
+import mal as mal
 
-def getBestMatches(username, token):
-    #token = main.readToken()
-    myData = main.requestUserData(username, token)['data']
+def getBestMatches(myData):
+    #myData = mal.requestUserData(username, token)['data']
     matches = {}
 
     for d in myData:
         myScore = d['list_status']['score']
         if myScore != 0:
-            animeFile = open("data/" + str(d['node']['id']) + ".txt")
+            animeFile = open("../data/" + str(d['node']['id']) + ".txt")
             ani = animeFile.readlines()
 
             for l in ani:
@@ -31,18 +30,24 @@ def getBestMatches(username, token):
     ky.sort(reverse = True)
     bestMatches = []
     for k in ky:
-        if len(bestMatches) < 20:
+        if len(bestMatches) < 100:
             bestMatches = bestMatches + orderedMatches[k]
         else:
             break
 
     return bestMatches
 
-# m = getBestMatches("moe091", main.readToken())
+# print(mal)
+# m = getBestMatches("moe091", mal.readToken())
 # print(m)
 
 
-
+##TODO:: After getting the x best matches:
+#use MAL api to grab full data for each of those users
+#create a dict using animeId as key, value is an array containing all ratings from the users(if original user already rated animeId, don't add to dict)
+    #generate affinity value for each animeId. This will be based on the average rating of all users, and then will be weighted based on how many of the users rated it
+    #in the future each similar user will have its own weighting based on their similarity to original user, and this weighting will be used when averaging the user ratings.
+    #after each animeId gets it's weighted affinity score, grab the title for that animeId and share recommendations with user
 
 
 
