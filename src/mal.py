@@ -60,7 +60,6 @@ def requestUsersData(users, token):
         except:
             print("FAILED TO GET DATA FOR ", u)
 
-    print(usersData)
     return usersData
 
 #remove this or move to another file. Was just used for generating sample data to test things out

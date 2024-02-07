@@ -1,5 +1,5 @@
-import mal as mal
 
+#TODO:: add arg for # of matches to return
 def getBestMatches(myData):
     #myData = mal.requestUserData(username, token)['data']
     matches = {}
@@ -17,6 +17,11 @@ def getBestMatches(myData):
                         matches[user] = matches[user] + 1
                     else:
                         matches[user] = 1
+                if abs(int(score) - myScore) > 3: #if rating is off by more than 3 then deduct an affinity point. 
+                    if user in matches:
+                        matches[user] = matches[user] - 1
+                    else:
+                        matches[user] = -1
 
     orderedMatches = {}
     for m in matches:
@@ -30,7 +35,7 @@ def getBestMatches(myData):
     ky.sort(reverse = True)
     bestMatches = []
     for k in ky:
-        if len(bestMatches) < 100:
+        if len(bestMatches) < 21:
             bestMatches = bestMatches + orderedMatches[k]
         else:
             break

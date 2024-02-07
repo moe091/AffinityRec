@@ -1,5 +1,6 @@
 import mal as mal
 import matcher as matcher
+import averager as averager
 
 
 
@@ -10,4 +11,5 @@ if __name__ == "__main__":
     
     myData = mal.requestUserData(username, token)['data']
     matches = matcher.getBestMatches(myData)
-    print("MATCHES = ", matches)
+    avgs = averager.getAverages(matches, token)
+    #print("AVGS: ", avgs['Manceyy'])
