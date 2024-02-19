@@ -17,6 +17,9 @@ def readToken() -> str:
         d = json.load(f)
         return d['access_token']
 
+def getAnimeScore(animeId, token):
+    r = requests.get("https://api.myanimelist.net/v1/anime/" + str(animeId) + "?fields=mean", headers={'Authorization': 'Bearer ' + token})
+    return json.loads(r.text)['mean']
 
 def getUsersList():
     file = open("../config/namelist.txt")

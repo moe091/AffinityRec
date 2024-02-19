@@ -5,7 +5,7 @@ import mal as mal
 def sortScores(a):
     return a[1]
 
-def getAverages(users, token):
+def getAverages(users, token, ignoreIds, count):
     usersData = mal.requestUsersData(users, token)
     scores = {}
     animeNames = {}
@@ -15,7 +15,10 @@ def getAverages(users, token):
             animeNames[data[a]['id']] = data[a]['title']
             animeId = data[a]['id']
             animeScore = data[a]['score']
-           
+            
+            if animeId in ignoreIds:
+                continue
+
             if animeId in scores:
                 cur = scores[animeId]
                 cur['scores'].append(animeScore)
@@ -27,7 +30,7 @@ def getAverages(users, token):
     
     affScores = {}
     for k in scores:
-        if scores[k]['count'] >= 10:
+        if scores[k]['count'] >= 2:
             affScores[k] = scores[k]
 
     sortedScores = []
@@ -41,11 +44,40 @@ def getAverages(users, token):
         #print(str(k) + " - " + str(anime['avg']))
 
     sortedScores.sort(key=sortScores)
-    for s in sortedScores:
-        # print(s[0], s[1])
-        print(str(animeNames[s[0]]) + " - " + str(s[1]))
+    # for s in sortedScores:
+    #     print(str(s[0]) + " - " + str(animeNames[s[0]]) + " - " + str(s[1]))
+
+    results = []
+    length = min(len(sortedScores), count)
+    for i in range(len(sortedScores) - length, len(sortedScores)):
+        s = sortedScores[i]
+        result = {}
+        result['id'] = s[0]
+        result['name'] = animeNames[s[0]]
+        result['score'] = s[1]
+        results.insert(0, result)
+
+
+    return results
 
 
 
+def sortDiffs(val):
+    #return (val['diff'] * 1) 
+    return (val['diff'] * 3) + val['score']
 
-    return affScores
+#takes in a list of results(such as the one returned by getAverages) 
+#and adds a 'diff' property to each one.
+#diff is the affinityScore of an anime for a particular user, minus the average rating for that anime.
+#a high diff means an anime is more suited for a user than it is for the average viewer.
+def getDifferences(scores, token):
+    for s in scores:
+        mean = mal.getAnimeScore(s['id'], token)
+        s['diff'] = s['score'] - mean #recommended score minus average rating. 
+    
+    scores.sort(key=sortDiffs)
+    return scores
+
+
+#affSCore will be diff + score, so base score still counts but it is heavily weighted by diff from mean. 
+#without this the top rated MAL anime will be recommended to everyone way too often

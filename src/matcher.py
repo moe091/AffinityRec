@@ -12,12 +12,15 @@ def getBestMatches(myData):
 
             for l in ani:
                 user,score = l.split("||")
+                ##NEXT: calculate affinity score by simply adding 2-(diff between my score and theirs)
+                ##also, in addition to affinity score, add a weight to each user, which could just be the # of 
+                #anime incommon - 5 or something(negative scores will be zeroed, so they don't count at all instead of counting negatively)
                 if int(score) == myScore:
                     if user in matches:
                         matches[user] = matches[user] + 1
                     else:
                         matches[user] = 1
-                if abs(int(score) - myScore) > 3: #if rating is off by more than 3 then deduct an affinity point. 
+                if abs(int(score) - myScore) > 2: #if rating is off by more than 3 then deduct an affinity point. 
                     if user in matches:
                         matches[user] = matches[user] - 1
                     else:
@@ -35,7 +38,7 @@ def getBestMatches(myData):
     ky.sort(reverse = True)
     bestMatches = []
     for k in ky:
-        if len(bestMatches) < 21:
+        if len(bestMatches) < 9:
             bestMatches = bestMatches + orderedMatches[k]
         else:
             break
