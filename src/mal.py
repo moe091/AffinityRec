@@ -21,6 +21,11 @@ def getAnimeScore(animeId, token):
     r = requests.get("https://api.myanimelist.net/v1/anime/" + str(animeId) + "?fields=mean", headers={'Authorization': 'Bearer ' + token})
     return json.loads(r.text)['mean']
 
+def animeAnimeRatingCount(animeId, token):
+    r = requests.get("https://api.myanimelist.net/v1/anime/" + str(animeId) + "?fields=num_scoring_users", headers={'Authorization': 'Bearer ' + token})
+    return json.loads(r.text)['num_scoring_users']
+
+
 def getUsersList():
     file = open("../config/namelist.txt")
     data = file.read()

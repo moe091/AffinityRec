@@ -1,49 +1,63 @@
+import reddb.db as db
+import mal as mal
+
 
 #TODO:: add arg for # of matches to return
 def getBestMatches(myData):
-    #myData = mal.requestUserData(username, token)['data']
     matches = {}
+    userMatchCount = {}
 
-    for d in myData:
+    for d in myData: #loop through all anime I have rated
         myScore = d['list_status']['score']
-        if myScore != 0:
-            animeFile = open("../data/" + str(d['node']['id']) + ".txt")
-            ani = animeFile.readlines()
+        if myScore != 0: #if my rating for anime d isn't a 0(unrated), then
+            # animeFile = open("../data/" + str(d['node']['id']) + ".txt")
+            # ani = animeFile.readlines() #read in all user ratings for anime d
 
-            for l in ani:
-                user,score = l.split("||")
+            ani = db.getAllAnimeRatings(d['node']['id']) #returns dict of username:score
+
+            for k in ani: #loop through each users rating for anime d
+                # user,score = l.split("||") #get username and score for anime d
+                user = k
+                score = ani[k]
+
+                #increase matchCount by 1 for this user
+                if user in userMatchCount:
+                    userMatchCount[user]+= 1
+                else:
+                    userMatchCount[user] = 1
+
                 ##NEXT: calculate affinity score by simply adding 2-(diff between my score and theirs)
                 ##also, in addition to affinity score, add a weight to each user, which could just be the # of 
                 #anime incommon - 5 or something(negative scores will be zeroed, so they don't count at all instead of counting negatively)
-                if int(score) == myScore:
-                    if user in matches:
-                        matches[user] = matches[user] + 1
-                    else:
-                        matches[user] = 1
-                if abs(int(score) - myScore) > 2: #if rating is off by more than 3 then deduct an affinity point. 
-                    if user in matches:
-                        matches[user] = matches[user] - 1
-                    else:
-                        matches[user] = -1
+
+                if user in matches:
+                    matches[user] = matches[user] + 2 - abs(myScore - int(score))
+                else:
+                    matches[user] = 2 - abs(myScore - int(score))
 
     orderedMatches = {}
     for m in matches:
         n = matches[m]
-        if n in orderedMatches:
-            orderedMatches[n].append(m)
-        else:
-            orderedMatches[n] = [m]
+        if userMatchCount[m] > 4: #user needs at least 3 ratings in common to be considered
+            mScore = n / userMatchCount[m]
+            if mScore in orderedMatches:
+                orderedMatches[mScore].append(m)
+            else:
+                orderedMatches[mScore] = [m]
 
     ky = list(orderedMatches.keys())
     ky.sort(reverse = True)
     bestMatches = []
     for k in ky:
-        if len(bestMatches) < 9:
+        if len(bestMatches) < 30:
             bestMatches = bestMatches + orderedMatches[k]
         else:
             break
 
-    return bestMatches
+    def mapResult(v):
+        return [v, matches[v]]
+    
+    return list(map(mapResult, bestMatches))
 
 # print(mal)
 # m = getBestMatches("moe091", mal.readToken())
